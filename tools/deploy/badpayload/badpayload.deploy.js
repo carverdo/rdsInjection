@@ -1,17 +1,16 @@
-// const math = require('mathjs');
 const Validator = require('jsonschema').Validator;
 const h = require('../lib/helper');
 
 const deployType = 'badpayload';
 const v = new Validator;
 
-const fp_schema = require('../../../src/payload/schemas/schema_fp');
-const ksb_schema = require('../../../src/payload/schemas/schema_ksb');
-const mb_schema = require('../../../src/payload/schemas/schema_mb');
-const tb_schema = require('../../../src/payload/schemas/schema_tb');
-const vis_schema = require('../../../src/payload/schemas/schema_vis');
-const user_schema = require('../../../src/payload/schemas/schema_user');
-const payload_schema = require('../../../src/payload/schemas/schema_payload');
+const fp_schema = require('../../../src/schemas/schema_fp');
+const ksb_schema = require('../../../src/schemas/schema_ksb');
+const mb_schema = require('../../../src/schemas/schema_mb');
+const tb_schema = require('../../../src/schemas/schema_tb');
+const vis_schema = require('../../../src/schemas/schema_vis');
+const user_schema = require('../../../src/schemas/schema_user');
+const payload_schema = require('../../../src/schemas/schema_payload');
 
 v.addSchema(fp_schema, '/fp');
 v.addSchema(ksb_schema, '/ksb');

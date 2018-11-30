@@ -1,8 +1,7 @@
-// const math = require('mathjs');
 const Validator = require('jsonschema').Validator;
 const h = require('../lib/helper');
 
-const deployType = 'payload';
+const deployType = 'ffam';
 const v = new Validator;
 
 const fp_schema = require('../../../src/schemas/schema_fp');
@@ -92,7 +91,7 @@ async function main() {
     const newPayloads = await validate(deployType);
     console.log(newPayloads.length);
     // Build
-    h.copyFilesToBuildArea(deployType, JSON.stringify(newPayloads));
+    h.copyFilesToBuildArea(deployType, JSON.stringify(newPayloads), deployType+'.json');
 }
 
 module.exports = {main};
