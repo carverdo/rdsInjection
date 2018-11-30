@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["payload", "sessionId", "createdOn", "version"],
+    "properties": {
+        "sessionId" : { "type" : "string"},
+        "createdOn" : { "type" : "string"},
+        "version" : { "type" : "string"},
+        "payload" : {
+          "type" : "object",
+          "required": ["fp", "vis", "mb", "tb", "ksb", "fp_source"],
+          "properties": {
+            "fp": {"$ref" : "/fp"},
+            "vis": {"$ref" : "/vis"},
+            "mb": {"$ref" : "/mb"},
+            "tb": {"$ref" : "/tb"},
+            "ksb": {"$ref" : "/ksb"},
+            "fp_source" : { "type" : "string"}
+          }
+        }
+    }
+}

@@ -1,0 +1,62 @@
+{
+  "definitions": {
+    "kblob": {
+      "$id": "/schema/kblob", "title": "Array of ks timings.", "description": "Data for each keystroke.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 3,
+        "maxItems": 3,
+        "items": [
+          {
+            "$id": "/ksb/kblob/keypress",
+            "type": "string",
+            "enum": ["_d", "_u"]
+          },
+          {
+            "$id": "/ksb/kblob/key",
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "$id": "/ksb/kblob/time",
+            "type": "number",
+            "minimum": 0
+          }
+        ]
+      }
+    },
+    "ksb_arr": {
+      "$id": "/schema/vis/ksb_arr",
+      "title": "KeyStroke Array",
+      "description": "Keystroke timings.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["element", "kblob", "tex"],
+        "properties": {
+          "element": {
+            "$id": "/schema/ksb/element", "title": "HTML Element", "description": "HTML element generating keystrokes.",
+            "type": "string"
+          },
+          "kblob": {
+            "$ref": "#/definitions/kblob"
+          },
+          "tex": {
+            "$id": "/schema/ksb/tex", "title": "Raw text", "description": "Raw text in element.",
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "required": ["ksb_arr"],
+  "properties": {
+    "ksb_arr": {"$ref" : "#/definitions/ksb_arr"}
+  }
+}

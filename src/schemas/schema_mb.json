@@ -1,0 +1,45 @@
+{
+  "definitions": {
+    "acc": {
+      "$id": "/mb/acc",
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$id": "/mb/acc_value",
+        "type": "number"
+      }
+    },
+    "acc_array": {
+      "$id": "/mb/acc_array",
+      "type": "array",
+      "items": { "$ref": "#/definitions/acc" }
+    },
+    "rot": {
+      "$id": "/mb/rot",
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$id": "/mb/rot_value",
+        "type": "number",
+        "minimum": -360,
+        "maximum": 360
+      }
+    },
+    "rot_array": {
+      "$id": "/mb/acc_array",
+      "type": "array",
+      "items": { "$ref": "#/definitions/rot" }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "array",
+  "minItems": 2,
+  "maxItems": 2,
+  "items": [
+    {"$ref" : "#/definitions/acc_array"},
+    {"$ref" : "#/definitions/rot_array"}
+  ]
+}

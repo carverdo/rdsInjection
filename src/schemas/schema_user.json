@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "/user",
+  "type": "object",
+  "required": ["hash", "encrypted"],
+  "properties": {
+    "hash": {"type":"string"},
+    "encrypted": {"type":"string"}
+  }
+}

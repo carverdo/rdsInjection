@@ -1,0 +1,139 @@
+{
+  "definitions": {
+    "ip": {
+      "$id": "/schema/vis/ip", "title": "IP address.", "description": "IP address.",
+      "anyOf": [
+          {"type": "string", "pattern": "^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$"},
+          {"type": "string", "pattern":
+            "^[0-9a-f]{1,4}.[0-9a-f]{1,4}.[0-9a-f]{1,4}.[0-9a-f]{1,4}.[0-9a-f]{1,4}.[0-9a-f]{1,4}.[0-9a-f]{1,4}.[0-9a-f]{1,4}.$"
+          }
+        ]
+
+
+    },
+    "country_code": {
+      "$id": "/schema/vis/country_code", "title": "Short Country ref.", "description": "Short Country ref.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 3
+    },
+    "region_code": {
+      "$id": "/schema/vis/region_code", "title": "Short Region ref.", "description": "Short Region ref.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 3
+    },
+    "latitude": {
+      "$id": "/schema/vis/latitude", "title": "Latitude", "description": "Latitude",
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "longitude": {
+      "$id": "/schema/vis/longitude", "title": "Longitude", "description": "Longitude.",
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "geolocation": {
+      "$id": "/schema/vis/geolocation", "title": "GeoPos", "description": "GeoPos data.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [ "latitude", "longitude"],
+      "properties": {
+        "latitude": { "$ref": "#/definitions/latitude"},
+        "longitude": { "$ref": "#/definitions/longitude"}
+      }
+    },
+    "metro_code": {
+      "$id": "/schema/vis/metro_code", "title": "Metro code", "description": "Metro code",
+      "type": "number", "multipleOf": 1.0,
+      "minimum": 0
+    },
+    "exp_tzo": {
+      "$id": "/schema/vis/exp_tzo", "title": "Expected timezone offset", "description": "The timezone offset we expect.",
+      "anyOf": [
+          {"type": "number", "multipleOf": 1.0, "minimum": -780, "maximum": 780},
+          {"type": "null"}
+        ]
+    },
+
+    "timezone_offset": {
+      "$id": "/schema/vis/timezone_offset", "title": "TZ offset", "description": "Actual TZ offset.",
+      "type": "number", "multipleOf": 1.0, "minimum": -780, "maximum": 780
+    },
+    "reqTime": {
+      "$id": "/scheam/vis/reqTime", "title": "Request time", "description": "Request time.",
+      "type": "number", "multipleOf": 1.0, "minimum": 0
+    },
+    "nwLatency": {
+      "$id": "/schema/vis/nwLatency", "title": "Network time", "description": "Network time.",
+      "type": "number", "multipleOf": 1.0, "minimum": 0
+    },
+    "latency": {
+      "$id": "/schema/vis/latency",
+      "title": "Latency",
+      "description": "Latency measures.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timezone_offset",
+        "reqTime",
+        "nwLatency"
+      ],
+      "properties": {
+        "timezone_offset": {
+          "$ref": "#/definitions/timezone_offset"
+        },
+        "reqTime": {
+          "$ref": "#/definitions/reqTime"
+        },
+        "nwLatency": {
+          "$ref": "#/definitions/nwLatency"
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["client_data", "latency"],
+  "properties": {
+    "client_data": {
+      "$id": "/vis/client_data", "title": "Client Data coming from ip service.", "description": "Geographic parameters from the ip",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ip", "country_code", "country_name", "region_code", "region_name", "city", "zip_code", "time_zone", "geolocation", "metro_code", "exp_tzo"],
+      "properties": {
+        "ip": {"$ref" : "#/definitions/ip"},
+        "country_code": {"$ref" : "#/definitions/country_code"},
+        "country_name": {
+          "$id": "/vis/client_data/country_name", "title": "Country", "description": "Country.",
+          "type": "string"
+        },
+        "region_code": {"$ref" : "#/definitions/region_code"},
+        "region_name": {
+          "$id": "/vis/client_data/region_name", "title": "Region", "description": "Region.",
+          "type": "string"
+        },
+        "city":{
+          "$id": "/vis/client_data/city", "title": "City", "description": "City.",
+          "type": "string"
+        },
+        "zip_code":{
+          "$id": "/vis/client_data/zip_code", "title": "Zip", "description": "Zip.",
+          "type": "string"
+        },
+        "time_zone":{
+          "$id": "/vis/client_data/time_zone", "title": "TimeZone region", "description": "Name of TimeZone.",
+          "type": "string"
+        },
+        "geolocation" : {"$ref" : "#/definitions/geolocation"},
+        "metro_code": {"$ref" : "#/definitions/metro_code"},
+        "exp_tzo": {"$ref" : "#/definitions/exp_tzo"}
+      }
+    },
+    "latency": {"$ref" : "#/definitions/latency"}
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "/fp",
+  "type": "object",  
+  "definitions": {
+    "fonts": {
+      "$id": "/fp/fonts",
+      "title": "The Fonts Schema",
+      "description": "Bitmask where each bit corresponds to a font in a predefined array.  Currently of size 192, may grow.",
+      "type": "string",
+      "minLength": 195,
+      "maxLength": 195,
+      "pattern":"^[01]*$"
+    },
+    "language": {
+      "$id": "/fp/language",
+      "title": "The Language Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "string", "maximum": 5
+    },
+    "plugins": {
+      "$id": "/fp/plugins",
+      "description": "Currently an array of arrays of strings, but this may change to a bitmask.",
+      "type": "array",
+      "items": {
+        "$id": "/fp/plugins/items",
+        "type": "array",
+        "items": {
+          "$id": "/fp/plugins/items/items",
+          "title": "The ? Schema",
+          "description": "An explanation about the purpose of this instance.",
+          "type": "array"
+        }
+      }
+    },
+    "platform": {
+      "$id": "/fp/platform",
+      "title": "The Platform Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "string",
+      "maxLength": 40
+    },
+    "screen": {
+      "$id": "/fp/screen",
+      "title": "The screen Schema.",
+      "description": "An array of various screen data (availHeight, availLeft, availTop, availWidth, colorDepth, height, pixelDepth, width, untruth",
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": [
+        {
+          "$id": "/fp/screen/availHeight",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/availLeft",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/availTop",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/availWidth",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/colorDepth",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/height",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/pixelDepth",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/width",
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "$id": "/fp/screen/untruth",
+          "type": "boolean"
+        }
+      ]
+    },
+    "timezoneOffset": {
+      "$id": "/fp/timezoneOffset",
+      "title": "The Timezoneoffset Schema",
+      "description": "An explanation about the purpose of this instance. What are the maximum and minimum values here?",
+      "type": "integer", "minimum":-780, "maximum": 780
+    },
+    "userAgent": {
+      "$id": "/fp/userAgent",
+      "description": "User Agent array containing the user agent (ua) and two booleans representing BrowserLies and OSLies.",
+      "type": "array",
+      "items": [
+        {
+          "$id": "/fp/userAgent/ua",
+          "type": "string"
+        },
+        {
+          "$id": "/fp/userAgent/BrowserLies",
+          "type": "boolean"
+        },
+        {
+          "$id": "/fp/userAgent/OSLies",
+          "type": "boolean"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["adBlock", "addBehavior", "bigH", "canvasDyno", "canvasStatic",
+    "cpuClass",
+    "doNotTrack", "dyno", "fonts", "indexedDb", "isIE",
+    "language", "localStorage", "openDatabase", "platform",
+    "plugins", "screen",
+    "sessionStorage", "timezoneOffset", "touchSupport",
+    "userAgent",
+    "webgl"
+  ],
+  "properties": {
+    "adBlock": {
+      "$id": "/fp/adBlock",
+      "title": "The Adblock Schema",
+      "description": "Is AdBlock enabled?",
+      "type": "boolean"
+    },
+    "addBehavior": {
+      "$id": "/fp/addBehavior",
+      "title": "The Addbehavior Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "boolean"
+    },
+    "bigH": {
+      "$id": "/fp/bigH",
+      "title": "The bigH Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "integer"
+    },
+    "canvasDyno": {
+      "$id": "/fp/canvasDyno",
+      "title": "The Canvasdyno Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "integer"
+    },
+    "canvasStatic": {
+      "$id": "/fp/canvasStatic",
+      "title": "The Canvasstatic Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "integer"
+    },
+    "cpuClass": {
+      "$id": "/fp/cpuClass",
+      "description": "An explanation about the purpose of this instance.",
+      "title": "The cpuClass Schema",
+      "type": "string"
+    },
+    "doNotTrack": {
+      "$id": "/fp/doNotTrack",
+      "description": "An explanation about the purpose of this instance.",
+      "title": "The Donottrack Schema",
+      "type": "boolean"
+    },
+    "dyno": {
+      "$id": "/fp/dyno",
+      "title": "The Dyno Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "string"
+    },
+    "fonts": {"$ref" : "#/definitions/fonts"},
+    "indexedDb": {
+      "$id": "/fp/indexedDb",
+      "title": "The Indexeddb Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "boolean"
+    },
+    "isIE": {
+      "$id": "/fp/isIE",
+      "title": "The Isie Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "boolean"
+    },
+    "language": {"$ref" : "#/definitions/language"},
+    "localStorage": {
+      "$id": "/fp/localStorage",
+      "title": "The Localstorage Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "boolean"
+    },
+    "openDatabase": {
+      "$id": "/fp/openDatabase",
+      "title": "The Opendatabase Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "boolean"
+    },
+    "platform": {"$ref" : "#/definitions/platform"},
+    "plugins": {"$ref" : "#/definitions/plugins"},
+    "screen": {"$ref" : "#/definitions/screen"},
+    "sessionStorage": {
+      "$id": "/fp/sessionStorage",
+      "title": "The Sessionstorage Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "boolean"
+    },
+    "timezoneOffset": {"$ref" : "#/definitions/timezoneOffset"},
+    "touchSupport": {
+      "$id": "/fp/touchSupport",
+      "title": "The Touchsupport Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "boolean"
+    },
+    "userAgent": {"$ref" : "#/definitions/userAgent"},
+    "webgl": {
+      "$id": "/fp/webgl",
+      "title": "The Webgl Schema",
+      "description": "An explanation about the purpose of this instance.",
+      "type": "integer"
+    }
+  }
+}

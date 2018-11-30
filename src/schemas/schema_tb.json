@@ -1,0 +1,32 @@
+{
+  "definitions": {
+    "touch": {
+      "$id": "/tb/touch",
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$id": "/tb/touch_value",
+        "anyOf": [
+          {"type": "number"},
+          {"type": "null"}
+        ]
+      }
+    },
+    "touch_array": {
+      "$id": "/tb/touch_array",
+      "type": "array",
+      "items": { "$ref": "#/definitions/touch" }
+    }
+
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "required": ["tstarter", "tmover"],
+  "additionalProperties": false,
+  "properties": {
+    "tstarter": { "$ref" : "#/definitions/touch_array"},
+    "tmover": {"$ref" : "#/definitions/touch_array"}
+  }
+}
