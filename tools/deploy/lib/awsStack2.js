@@ -7,7 +7,7 @@ function parseTarget(str, target) {
     return str.replace(/__invokeUrl__/g, target)
 }
 
-async function getTarget(env, stageName, region) {
+async function getTarget(env, stageName, wersion, region) {
     const AWS = require('aws-sdk');
 
     AWS.config.update({region: region});
@@ -55,7 +55,7 @@ async function getTarget(env, stageName, region) {
             });
         } else {
             const stager = arrayOfStages[0].stageName;
-            invokeUrl = `https://${apiId}.execute-api.${region}.amazonaws.com/${stager}/trouble`;
+            invokeUrl = `https://${apiId}.execute-api.${region}.amazonaws.com/${stager}/version/${wersion}`;
         }
     }
     console.log(`Target for ${env}: ${invokeUrl}`);

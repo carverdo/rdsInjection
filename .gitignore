@@ -1,0 +1,25 @@
+# IntelliJ proj files
+.idea/
+*.iml
+out/
+gen/
+
+# Compiles
+*.pyc
+
+# Databases
+src/520release/dbBackup
+src/ffam/*.csv
+src/badpayload
+
+# Submodules
+lib/ProcessPayloadSchema/
+tools/deploy/lib/
+
+# Directories
+build/
+node_modules/
+venv/
+
+# Files
+.vscode/settings.json

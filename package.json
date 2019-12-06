@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "csvtojson": "^2.0.8",
     "fs-extra": "^7.0.1",
     "jsonschema": "^1.2.4",

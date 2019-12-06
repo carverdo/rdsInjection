@@ -1,0 +1,3 @@
+[submodule "lib/ProcessPayloadSchema"]
+	path = lib/ProcessPayloadSchema
+	url = https://github.com/carverdo/ProcessPayloadSchema

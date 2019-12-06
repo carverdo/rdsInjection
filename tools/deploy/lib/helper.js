@@ -221,8 +221,8 @@ async function reformatTouch(deployType) {
 }
 
 
-async function updateTarget(env, stageName, region) {
-    const envConfig = await s.getTarget(env, stageName, region);
+async function updateTarget(env, stageName, wersion, region) {
+    const envConfig = await s.getTarget(env, stageName, wersion, region);
 
     const bDir = buildDir(env);
     await fs.ensureDir(bDir);
@@ -237,7 +237,7 @@ function sleep(ms){
 }
 
 
-async function sendIt(oneDatapack, tgt) {
+async function sendIt(oneDatapack, tgt) { // xxx
     const options = {
         method: 'post',
         body: oneDatapack,
@@ -245,17 +245,18 @@ async function sendIt(oneDatapack, tgt) {
         url: tgt,
         headers: {"Content-Type": "application/json"}
     };
-    console.log('Sending: ' + oneDatapack.sessionId);
 
     function callback(err, resp, body) {
         if (!err && resp.statusCode === 200) {
-            console.log('Success');
+            console.log('Success: ' + oneDatapack.sessionId);
         } else {
             console.log('Error :', err);
+            console.log('[*]   Failure: ' + oneDatapack.sessionId);
+            return oneDatapack.sessionId;
         }
     }
 
-    request(options, callback);
+    return request(options, callback);
     // await sleep(1000);
 }
 

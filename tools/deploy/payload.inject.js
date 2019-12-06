@@ -9,11 +9,11 @@ Tactical tool to squirt stuff into the rds (via redis).
 const h = require('./lib/helper');
 const uuidv4 = require('uuid/v4');
 
-const deployType = 'ffam';
+const deployType = '520release';
 
 // get CLI args
 const argv = require('yargs')
-.usage("Usage:\n   node ./payload.inject.js -r <region e.g. eu-west-1> -e <environment> -s <stage e.g. red> -t [build|inject]")
+.usage("Usage:\n   node ./payload.inject.js -r <region e.g. eu-west-1> -e <environment> -s <stage e.g. red> -w <wersion e.g. v5.2.0> -t [build|inject|inject520]")
 .option('region', {
     alias: 'r',
     describe: 'The region to deploy to.'
@@ -26,11 +26,15 @@ const argv = require('yargs')
     alias: 's',
     describe: 'The API gateway stage to point to.'
 })
+.option('wersion', {
+    alias: 'w',
+    describe: 'The version we test the injection against.'
+})
 .option('type', {
     alias: 't',
-    describe: 'The type of deployment we are carrying out - "create", "update", or "delete"'
+    describe: 'The type of deployment we are carrying out - "build", "inject", or "inject520"'
 })
-.demandOption(['r','e', 's', 't'], 'Please provide region, stage, and env arguments')
+.demandOption(['r','e', 's', 'w', 't'], 'Please provide region, env, stage, wersion and type arguments')
 .help()
 .argv;
 
@@ -47,9 +51,9 @@ async function main() {
     // inject build into ProcessPayload
     if (argv.type === 'inject') {
         const datapacks = require(h.buildDir(deployType) + deployType);
-        const target = await h.updateTarget(argv.env, argv.stage, AWS_REGION);
+        const target = await h.updateTarget(argv.env, argv.stage, argv.wersion, AWS_REGION);
 
-        datapacks.slice(1050).map(async (x, ix) => {
+        datapacks.slice(1050, 1100).map(async (x, ix) => {
             // bespoke tinkering with datapacks
             x.sessionId = uuidv4();
             x.createdOn = new Date();
@@ -58,6 +62,22 @@ async function main() {
             await h.sendIt(x, target.invokeUrl);
             console.log(ix, x.sessionId);
         });
+    }
+
+    if (argv.type === 'inject520') {
+        const datapacks = require(h.buildDir(deployType) + deployType);
+        const target = await h.updateTarget(argv.env, argv.stage, argv.wersion, AWS_REGION);
+
+        let errs = [];
+        datapacks.slice(1000, 1100).map(async (x, ix) => {
+            // bespoke tinkering with datapacks
+            setTimeout( async () => {
+                const err = await h.sendIt(x, target.invokeUrl);
+                if (err) errs.push(err);
+            }, ix*1000);  // safe throttle
+        });
+        // take copy of errs
+        h.copyFilesToBuildArea(deployType, JSON.stringify(errs),"err.json");
     }
 }
 
