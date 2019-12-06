@@ -90,14 +90,11 @@ const main = async (append=true) => {
                 Object.values(rows).map(r => {
                    data.push(r);
                 });
-                // writeToFile(data);
                 h.copyFilesToBuildArea(deployType, JSON.stringify(data), deployType+'.json');
             } else {
-                // writeToFile(rows);
                 h.copyFilesToBuildArea(deployType, JSON.stringify(rows), deployType+'.json');
             }
         } else {
-            // writeToFile(rows);
             h.copyFilesToBuildArea(deployType, JSON.stringify(rows), deployType+'.json');
         }
     }

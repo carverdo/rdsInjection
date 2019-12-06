@@ -1,3 +1,6 @@
+/*
+* Note that we took a copy of dyno and user.id so that we could reverse / test the hashes.
+* */
 const CryptoJS = require("crypto-js");
 const SECRET_KEY = "Im a pied piper";
 
@@ -35,16 +38,10 @@ const clean = (dp) => {
     dp.payload.fp_source = fromEvaq8(dp.payload.fp_source);
 
     // VERSIONS
-    // we are happy with ffam and the 400s are irrelevant, so lets just prepend with "rel"
-    // if (dp.version==="4.0.0" || dp.version==="4.1.1" || dp.version==="4.2.1") {
-    //     dp.version = "v5.2.0"; // "rel" + dp.version;
-    //     dp.payload.meta.version = "v5.2.0"; // "rel" + dp.payload.meta.version;
-    // }
+    // because we are going in "the front door" everything has to be v5.2.0;
+    // we have instead marked the fo_source.host so that we can distinguish the datasets
 
-    // we upgrade Zaid's data so that there is lots to play with at v5.2.0
     // keep this to end (just in case our treatment varies by versionNumber)
-
-    // if (dp.version==="4.2.2" || dp.version==="v5.00" || dp.version==="v5.1.0") {
     if (dp.version !=="v5.2.0") {
         dp.version = "v5.2.0";
         dp.payload.meta.version = "v5.2.0";
