@@ -18,10 +18,10 @@
 * copy them across
 * */
 
-// copy them query files across
-const srcDir = "./dbBackup";
-// scroll these guys up, sequentially -
-let srcFile = "/query421.csv";
+// copy them thar query files across (just use absolute as its called variously)
+const srcDir = "C:/Users/donal/PycharmProjects/rdsInjection/src/520release/dbBackup";
+// scroll these guys up, sequentially as you build 520release.json-
+let srcFile = "/queryffam.csv";
 /*
 let srcFile = "/queryffam.csv";
 

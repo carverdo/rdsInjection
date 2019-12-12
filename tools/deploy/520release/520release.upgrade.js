@@ -38,7 +38,8 @@ const reformat520 = (dp) => {
         merchantData: ["", ""]
     };
     // this change only applies to evaq8 (see clean for choice of replace)
-    if (dp.version === "4.2.2") dp.payload.fp_source.host = "climber.co.uk";
+    // note: v510 will catch a very few localhost, but these are cotemporaneous and can always be struck.
+    if (dp.version === "4.2.2" || dp.version === "v5.0.0") dp.payload.fp_source.host = "climber.co.uk";
 
     if (dp.payload.meta === undefined) dp.payload.meta = {
         version: dp.version,
