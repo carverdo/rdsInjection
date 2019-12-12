@@ -5,6 +5,10 @@ const csv = require('csvtojson');
 const fs = require('fs-extra');
 const request = require('request');
 
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+
+const deployArea = "deployarea";
 
 function baseDir() {
     return __dirname.replace(/rdsInjection.*/,'rdsInjection');
@@ -237,7 +241,7 @@ function sleep(ms){
 }
 
 
-async function sendIt(oneDatapack, tgt) { // xxx
+async function sendIt(oneDatapack, tgt) {
     const options = {
         method: 'post',
         body: oneDatapack,
@@ -246,20 +250,32 @@ async function sendIt(oneDatapack, tgt) { // xxx
         headers: {"Content-Type": "application/json"}
     };
 
-    function callback(err, resp, body) {
+    function callback(err, resp, body) { // i couldn't get this to await properly
         if (!err && resp.statusCode === 200) {
-            console.log('Success: ' + oneDatapack.sessionId);
+            // console.log('Success: ' + oneDatapack.sessionId);
+            console.log('s');
+            return oneDatapack.sessionId;
         } else {
             console.log('Error :', err);
             console.log('[*]   Failure: ' + oneDatapack.sessionId);
-            return oneDatapack.sessionId;
+            return 'f|' + oneDatapack.sessionId;
         }
     }
 
-    return request(options, callback);
+    return await request(options, callback);
     // await sleep(1000);
 }
 
+async function deployToS3(key, body) {
+    await s3.putObject({
+        Bucket: deployArea,
+        ACL: 'public-read',
+        Key: key,
+        Body: body
+    },function (resp) {
+        console.log(`Successfully uploaded package to deploy area: ${key}`);
+    });
+}
 
 module.exports = {
     readCSV, reformatFP, reformatMotion, reformatTouch, reformatKeys,
@@ -268,4 +284,5 @@ module.exports = {
     sendIt
     , sourceCodeDir
     , toolsdeployDir
+    , deployToS3
 };

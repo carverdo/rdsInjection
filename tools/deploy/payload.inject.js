@@ -1,9 +1,15 @@
 /*
-Tactical tool to squirt stuff into the rds (via redis).
+Tactical tool to squirt stuff into the rds (via api/redis or backend).
 
 1. Set deployType (which data package from src do you want to build?)
 2. run build
-3. run (and tinker with so that you can recognise those datapacks) inject
+3a. SMALL DATA SETS
+* run (and tinker with so that you can recognise those datapacks) inject
+3b. LARGE DATA SETS
+* run sqlBuild and update RDS directly from bastion
+
+* Remember that redis is a buffer so it will lose any repeat sessionIds.
+* Adjust if you don't want this behaviour.
  */
 
 const h = require('./lib/helper');
@@ -13,7 +19,7 @@ const deployType = '520release';
 
 // get CLI args
 const argv = require('yargs')
-.usage("Usage:\n   node ./payload.inject.js -r <region e.g. eu-west-1> -e <environment> -s <stage e.g. red> -w <wersion e.g. v5.2.0> -t [build|inject|inject520]")
+.usage("Usage:\n   node ./payload.inject.js -r <region e.g. eu-west-1> -e <environment> -s <stage e.g. red> -w <wersion e.g. v5.2.0> -t [build|sqlBuild|inject|inject520]")
 .option('region', {
     alias: 'r',
     describe: 'The region to deploy to.'
@@ -32,7 +38,7 @@ const argv = require('yargs')
 })
 .option('type', {
     alias: 't',
-    describe: 'The type of deployment we are carrying out - "build", "inject", or "inject520"'
+    describe: 'The type of deployment we are carrying out - "build", "sqlBuild", "inject", or "inject520"'
 })
 .demandOption(['r','e', 's', 'w', 't'], 'Please provide region, env, stage, wersion and type arguments')
 .help()
@@ -47,6 +53,11 @@ async function main() {
         build = require(h.toolsdeployDir(deployType) + deployType + '.deploy');
         build.main();
     }
+    // prepping data for a SQL "load data infile.." instruction (rather than an injection)
+    if (argv.type === 'sqlBuild') {
+            build = require(h.toolsdeployDir(deployType) + deployType + '.deploy');
+            build.prepForSQL(argv.env);
+        }
 
     // inject build into ProcessPayload
     if (argv.type === 'inject') {
@@ -69,11 +80,12 @@ async function main() {
         const target = await h.updateTarget(argv.env, argv.stage, argv.wersion, AWS_REGION);
 
         let errs = [];
-        datapacks.slice(1000, 1100).map(async (x, ix) => {
+        datapacks.slice(14000,16000).map(async (x, ix) => {  // .slice(1000, 1100)
             // bespoke tinkering with datapacks
             setTimeout( async () => {
                 const err = await h.sendIt(x, target.invokeUrl);
                 if (err) errs.push(err);
+                console.log(ix);
             }, ix*1000);  // safe throttle
         });
         // take copy of errs
