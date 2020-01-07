@@ -12,7 +12,8 @@ This is slightly different:
 Since the clean data is squirted back into the RDS this project is used iteratively.
 
 Take a local copy of the RDS:
-* run a snapshot in aws rds;
+* run a snapshot in aws rds (for safety);
+* on bastion: shell > mysqldump -h.... [ie the usual connection] > dump.sql;
 * aws s3 cp from bastion into s3;
 * download to pc (doesn't matter where it goes);
 
