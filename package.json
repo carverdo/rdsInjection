@@ -14,7 +14,7 @@
     "fs-extra": "^7.0.1",
     "jsonschema": "^1.2.4",
     "lodash": "^4.17.15",
-    "mathjs": "^5.2.3",
+    "mathjs": "^7.5.1",
     "request": "^2.88.0",
     "shelljs": "^0.8.3",
     "yargs": "^12.0.5"
